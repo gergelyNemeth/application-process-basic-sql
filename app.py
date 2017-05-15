@@ -18,27 +18,29 @@ def connect_database():
     return cursor
 
 
-def print_table(rows):
+def print_table(rows, descriptions):
+    table = []
+    column_names = [desc[0] for desc in descriptions]
+    table.append(column_names)
     for row in rows:
         row = str(row).strip("()").split(", ")
-        for i, column in enumerate(row):
-            if i < len(row) - 1:
-                print(column, end=', ')
-            else:
-                print(column)
+        table.append(row)
+
+    for row in table:
+        print(", ".join(row))
 
 
 def query_result(cursor, query):
     cursor.execute(query)
     rows = cursor.fetchall()
 
-    return rows
+    return rows, cursor.description
 
 
 def main():
     cursor = connect_database()
-    rows = query_result(cursor, """SELECT * FROM mentors;""")
-    print_table(rows)
+    rows, desc = query_result(cursor, """SELECT * FROM mentors;""")
+    print_table(rows, desc)
 
 if __name__ == '__main__':
     main()
