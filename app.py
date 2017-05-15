@@ -4,7 +4,7 @@ import psycopg2
 def connect_database():
     try:
         # setup connection string
-        connect_str = "dbname='gergo' user='gergo' host='localhost' password='Jn3.16'"
+        connect_str = "dbname='gergo' user='gergo' host='localhost'"
         # use our connection values to establish a connection
         conn = psycopg2.connect(connect_str)
         # set autocommit option, to do every query when we call it
@@ -28,10 +28,16 @@ def print_table(rows):
                 print(column)
 
 
+def query_result(cursor, query):
+    cursor.execute(query)
+    rows = cursor.fetchall()
+
+    return rows
+
+
 def main():
     cursor = connect_database()
-    cursor.execute("""SELECT * FROM mentors;""")
-    rows = cursor.fetchall()
+    rows = query_result(cursor, """SELECT * FROM mentors;""")
     print_table(rows)
 
 if __name__ == '__main__':
