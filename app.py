@@ -1,5 +1,8 @@
 import psycopg2
 
+MENU = 0
+QUERY = 1
+
 
 def connect_database():
     try:
@@ -75,12 +78,60 @@ def print_query(cursor, query):
     print_pretty_table(desc, rows)
 
 
+def menu_data():
+    menu_dict = {1: ["The 2 name columns of the mentors table",
+                     """SELECT first_name, last_name FROM mentors;"""],
+                 2: ["The nick_names of all mentors working at Miskolc",
+                     """SELECT nick_name FROM mentors
+                        WHERE city = 'Miskolc';"""],
+                 3: ["Full name and phone number of the girl named Carol",
+                     """SELECT CONCAT(first_name,' ', last_name) as full_name, phone_number
+                        FROM applicants
+                        WHERE first_name = 'Carol';"""],
+                 4: ["Who is the girl, who went to the famous Adipiscingenimmi University",
+                     """SELECT CONCAT(first_name,' ', last_name) as full_name, phone_number
+                        FROM applicants
+                        WHERE email LIKE '%@adipiscingenimmi.edu';"""],
+                 0: ["EXIT", ""]}
+    return menu_dict
+
+
+def print_menu():
+    menu_dict = menu_data()
+    print("\nQUERY MENU:\n")
+
+    for i in range(len(menu_dict)):
+        print("{} - {}".format(i, menu_dict[i][0]))
+
+
+def choose_menu():
+    menu_dict = menu_data()
+    valid_answer = False
+
+    while not valid_answer:
+        try:
+            answer = int(input("\nChoose from the menu: "))
+            if answer:
+                sql_query = menu_dict[answer][QUERY]
+                return sql_query
+            valid_answer = True
+            return False
+        except (ValueError, KeyError):
+            print("\nInvalid entry. Try giving a number from the menu.")
+
+
 def main():
     cursor = connect_database()
+    end = False
 
-    print_query(cursor, """SELECT first_name, last_name FROM mentors;""")
-    print_query(cursor, """SELECT nick_name FROM mentors WHERE city = 'Miskolc';""")
-    print_query(cursor, """SELECT CONCAT(first_name,' ', last_name) as full_name, phone_number FROM applicants WHERE first_name = 'Carol';""")
+    while not end:
+        print_menu()
+        query = choose_menu()
+        if query:
+            print_query(cursor, query)
+        else:
+            end = True
+
 
 if __name__ == '__main__':
     main()
