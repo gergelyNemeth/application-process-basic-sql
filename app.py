@@ -46,7 +46,6 @@ def print_pretty_table(descriptions, rows):
     column_lengths = [max([len(row[i]) for row in table]) for i in range(len(row))]
     separator_length = (sum(column_lengths) + len(column_lengths) * 3 + 1)
     separator = separator_length * "–"
-    separator_menu = separator_length * "="
 
     for i, row in enumerate(table):
         row_pretty = []
@@ -56,31 +55,37 @@ def print_pretty_table(descriptions, rows):
                 column = ""
             row_pretty.append("{0:<{width}}".format(str(column.strip(",")), width=column_lengths[j]))
 
-        if i == 1:
-            print(separator_menu)
-        else:
+        if i < 2:
             print(separator)
+
         print("| " + " | ".join(row_pretty) + " |")
 
     print(separator)
 
 
 def query_result(cursor, query):
-    cursor.execute(query)
-    rows = cursor.fetchall()
+    try:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+    except Exception as e:
+        print(e)
 
     return cursor.description, rows
 
 
-def print_query(cursor, query):
-    desc, rows = query_result(cursor, query)
-    print("\nQuery: \n{}".format(query))
-    print_pretty_table(desc, rows)
+def print_query_result(cursor, query):
+    print("\nSQL query: \n{}\n".format(query))
+    try:
+        desc, rows = query_result(cursor, query)
+        print_pretty_table(desc, rows)
+    except Exception as e:
+        print("No query result to print")
 
 
 def menu_data():
-    menu_dict = {1: ["The 2 name columns of the mentors table",
-                     """SELECT first_name, last_name FROM mentors;"""],
+    menu_dict = {0: ["EXIT", ""],
+                 1: ["The 2 name columns of the mentors table",
+                     """SELECT first_name, last_name FROM mentors ORDER BY id;"""],
                  2: ["The nick_names of all mentors working at Miskolc",
                      """SELECT nick_name FROM mentors
                         WHERE city = 'Miskolc';"""],
@@ -92,7 +97,19 @@ def menu_data():
                      """SELECT CONCAT(first_name,' ', last_name) as full_name, phone_number
                         FROM applicants
                         WHERE email LIKE '%@adipiscingenimmi.edu';"""],
-                 0: ["EXIT", ""]}
+                 5: ["Add Marcus Schaffarzyk to the applicants",
+                     """INSERT INTO applicants
+                        VALUES(nextval('applicants_id_seq'), 'Marcus', 'Schaffarzyk',
+                            '003620/725-266', 'djnovus@groovecoverage.com', 54823);
+                        SELECT * from applicants WHERE application_code = 54823;"""],
+                 6: ["Change Jemima Foreman's phone number to 003670/223-7459",
+                     """UPDATE applicants SET phone_number = '003670/223-7459'
+                        WHERE first_name = 'Jemima' AND last_name = 'Foreman';
+                        SELECT * FROM applicants WHERE phone_number = '003670/223-7459';"""],
+                 7: ["Delete Arsenio and his friend (with email @mauriseu.net)",
+                     """DELETE FROM applicants WHERE email LIKE '%@mauriseu.net';
+                        SELECT * FROM applicants WHERE email LIKE '%@mauriseu.net';"""]
+                 }
     return menu_dict
 
 
@@ -101,7 +118,7 @@ def print_menu():
     print("\nQUERY MENU:\n")
 
     for i in range(len(menu_dict)):
-        print("{} - {}".format(i, menu_dict[i][0]))
+        print("{} - {}".format(i, menu_dict[i][MENU]))
 
 
 def choose_menu():
@@ -112,12 +129,12 @@ def choose_menu():
         try:
             answer = int(input("\nChoose from the menu: "))
             if answer:
-                sql_query = menu_dict[answer][QUERY]
+                sql_query = menu_dict[answer][QUERY].replace("  ", "")
                 return sql_query
             valid_answer = True
             return False
         except (ValueError, KeyError):
-            print("\nInvalid entry. Try giving a number from the menu.")
+            print("\nInvalid entry. Enter a number from the menu.")
 
 
 def main():
@@ -128,7 +145,7 @@ def main():
         print_menu()
         query = choose_menu()
         if query:
-            print_query(cursor, query)
+            print_query_result(cursor, query)
         else:
             end = True
 
