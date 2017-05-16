@@ -18,10 +18,11 @@ def connect_database():
     return cursor
 
 
-def print_table(rows, descriptions):
+def print_table(descriptions, rows):
     table = []
     column_names = [desc[0] for desc in descriptions]
     table.append(column_names)
+
     for row in rows:
         row = str(row).strip("()").split(", ")
         table.append(row)
@@ -30,17 +31,44 @@ def print_table(rows, descriptions):
         print(", ".join(row))
 
 
+def print_pretty_table(descriptions, rows):
+    table = []
+    column_names = [desc[0] for desc in descriptions]
+    table.append(column_names)
+
+    for row in rows:
+        row = str(row).strip("()").replace("'", "").split(", ")
+        table.append(row)
+
+    column_lengths = [max([len(row[i]) for row in table]) for i in range(len(row))]
+    separator = (sum(column_lengths) + len(column_lengths) * 3 + 1) * "-"
+    table_pretty = []
+
+    for i, row in enumerate(table):
+        row_pretty = []
+
+        for j, column in enumerate(row):
+            if column == "None":
+                column = ""
+            row_pretty.append("{0:^{width}}".format(str(column.strip(",")), width=column_lengths[j]))
+
+        print(separator)
+        print("| " + " | ".join(row_pretty) + " |")
+
+    print(separator)
+
+
 def query_result(cursor, query):
     cursor.execute(query)
     rows = cursor.fetchall()
 
-    return rows, cursor.description
+    return cursor.description, rows
 
 
 def main():
     cursor = connect_database()
-    rows, desc = query_result(cursor, """SELECT * FROM mentors;""")
-    print_table(rows, desc)
+    desc, rows = query_result(cursor, """SELECT * FROM mentors;""")
+    print_pretty_table(desc, rows)
 
 if __name__ == '__main__':
     main()
