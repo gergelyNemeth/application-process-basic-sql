@@ -41,8 +41,9 @@ def print_pretty_table(descriptions, rows):
         table.append(row)
 
     column_lengths = [max([len(row[i]) for row in table]) for i in range(len(row))]
-    separator = (sum(column_lengths) + len(column_lengths) * 3 + 1) * "-"
-    table_pretty = []
+    separator_length = (sum(column_lengths) + len(column_lengths) * 3 + 1)
+    separator = separator_length * "–"
+    separator_menu = separator_length * "="
 
     for i, row in enumerate(table):
         row_pretty = []
@@ -50,9 +51,12 @@ def print_pretty_table(descriptions, rows):
         for j, column in enumerate(row):
             if column == "None":
                 column = ""
-            row_pretty.append("{0:^{width}}".format(str(column.strip(",")), width=column_lengths[j]))
+            row_pretty.append("{0:<{width}}".format(str(column.strip(",")), width=column_lengths[j]))
 
-        print(separator)
+        if i == 1:
+            print(separator_menu)
+        else:
+            print(separator)
         print("| " + " | ".join(row_pretty) + " |")
 
     print(separator)
@@ -65,10 +69,18 @@ def query_result(cursor, query):
     return cursor.description, rows
 
 
+def print_query(cursor, query):
+    desc, rows = query_result(cursor, query)
+    print("\nQuery: \n{}".format(query))
+    print_pretty_table(desc, rows)
+
+
 def main():
     cursor = connect_database()
-    desc, rows = query_result(cursor, """SELECT * FROM mentors;""")
-    print_pretty_table(desc, rows)
+
+    print_query(cursor, """SELECT first_name, last_name FROM mentors;""")
+    print_query(cursor, """SELECT nick_name FROM mentors WHERE city = 'Miskolc';""")
+    print_query(cursor, """SELECT CONCAT(first_name,' ', last_name) as full_name, phone_number FROM applicants WHERE first_name = 'Carol';""")
 
 if __name__ == '__main__':
     main()
