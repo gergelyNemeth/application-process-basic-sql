@@ -23,7 +23,7 @@ def connect_database():
 
 def print_table(descriptions, rows):
     table = []
-    column_names = [desc[0] for desc in descriptions]
+    column_names = [description[0] for description in descriptions]
     table.append(column_names)
 
     for row in rows:
@@ -36,7 +36,7 @@ def print_table(descriptions, rows):
 
 def print_pretty_table(descriptions, rows):
     table = []
-    column_names = [desc[0] for desc in descriptions]
+    column_names = [description[0] for description in descriptions]
     table.append(column_names)
 
     for row in rows:
@@ -76,15 +76,15 @@ def query_result(cursor, query):
 def print_query_result(cursor, query):
     print("\nSQL query: \n{}\n".format(query))
     try:
-        desc, rows = query_result(cursor, query)
-        print_pretty_table(desc, rows)
+        descriptions, rows = query_result(cursor, query)
+        print_pretty_table(descriptions, rows)
     except Exception as e:
         print("No query result to print")
 
 
 def menu_data():
     menu_dict = {0: ["EXIT", ""],
-                 1: ["The 2 name columns of the mentors table",
+                 1: ["The two name columns of the mentors table",
                      """SELECT first_name, last_name FROM mentors ORDER BY id;"""],
                  2: ["The nick_names of all mentors working at Miskolc",
                      """SELECT nick_name FROM mentors
@@ -115,6 +115,7 @@ def menu_data():
 
 def print_menu():
     menu_dict = menu_data()
+    print("\nAPPLICATION PROCESS")
     print("\nQUERY MENU:\n")
 
     for i in range(len(menu_dict)):
