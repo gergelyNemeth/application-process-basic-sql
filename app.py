@@ -98,8 +98,8 @@ def menu_data():
                         FROM applicants
                         WHERE email LIKE '%@adipiscingenimmi.edu';"""],
                  5: ["Add Marcus Schaffarzyk to the applicants",
-                     """INSERT INTO applicants
-                        VALUES(nextval('applicants_id_seq'), 'Marcus', 'Schaffarzyk',
+                     """INSERT INTO applicants (first_name, last_name, phone_number, email, application_code)
+                        VALUES('Marcus', 'Schaffarzyk',
                             '003620/725-266', 'djnovus@groovecoverage.com', 54823);
                         SELECT * from applicants WHERE application_code = 54823;"""],
                  6: ["Change Jemima Foreman's phone number to 003670/223-7459",
