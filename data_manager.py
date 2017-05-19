@@ -25,8 +25,8 @@ def query_result(query):
         rows = cursor.fetchall()
     except Exception as e:
         print(e)
-
-    cursor.close()
-    conn.close()
+    finally:
+        if conn:
+            conn.close()
 
     return cursor.description, rows
