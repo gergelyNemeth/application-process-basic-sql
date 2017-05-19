@@ -15,14 +15,18 @@ def connect_database():
         print("Uh oh, can't connect. Invalid dbname, user or password?")
         print(e)
 
-    return cursor
+    return cursor, conn
 
 
-def query_result(cursor, query):
+def query_result(query):
     try:
+        cursor, conn = connect_database()
         cursor.execute(query)
         rows = cursor.fetchall()
     except Exception as e:
         print(e)
+
+    cursor.close()
+    conn.close()
 
     return cursor.description, rows

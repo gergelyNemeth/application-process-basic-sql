@@ -102,10 +102,10 @@ def print_pretty_table(descriptions, rows):
     print(separator)
 
 
-def print_query_result(cursor, query):
+def print_query_result(query):
     print("\nSQL query: \n{}\n".format(query))
     try:
-        descriptions, rows = data_manager.query_result(cursor, query)
+        descriptions, rows = data_manager.query_result(query)
         print_pretty_table(descriptions, rows)
     except Exception as e:
         print("No query result to print")
