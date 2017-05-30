@@ -21,6 +21,12 @@ def all_school():
     return render_template('query_result.html', title='All School', columns=columns, table=table)
 
 
+@app.route('/mentors-by-country')
+def mentors_by_country():
+    columns, table = data_manager.query_mentors_by_country()
+    return render_template('query_result.html', title='Mentors by Country', columns=columns, table=table)
+
+
 def main():
     app.run(debug=True)
 

@@ -59,3 +59,16 @@ def query_all_school():
     descriptions, rows = query_result(query)
 
     return table_data(descriptions, rows)
+
+
+def query_mentors_by_country():
+    query = """SELECT schools.country, COUNT(mentors.id)
+               FROM mentors
+               RIGHT JOIN schools ON mentors.city = schools.city
+               GROUP BY schools.country
+               ORDER BY schools.country
+               ;"""
+    descriptions, rows = query_result(query)
+    print(rows)
+
+    return table_data(descriptions, rows)
