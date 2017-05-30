@@ -40,7 +40,7 @@ def table_data(descriptions, rows):
 
 
 def query_mentors():
-    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name AS school, schools.country
+    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
                FROM mentors
                INNER JOIN schools ON mentors.city = schools.city
                ORDER BY mentors.id
@@ -51,7 +51,7 @@ def query_mentors():
 
 
 def query_all_school():
-    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name AS school, schools.country
+    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
                FROM mentors
                RIGHT JOIN schools ON mentors.city = schools.city
                ORDER BY mentors.id
@@ -69,6 +69,19 @@ def query_mentors_by_country():
                ORDER BY schools.country
                ;"""
     descriptions, rows = query_result(query)
-    print(rows)
+
+    return table_data(descriptions, rows)
+
+
+def query_contacts():
+    query = """SELECT schools.name AS school,
+                      CONCAT(mentors.first_name, ' ', mentors.last_name) AS contact_name,
+                      mentors.email
+               FROM mentors
+               INNER JOIN schools ON mentors.city = schools.city
+               WHERE mentors.id = schools.contact_person
+               ORDER BY schools.name
+               ;"""
+    descriptions, rows = query_result(query)
 
     return table_data(descriptions, rows)
