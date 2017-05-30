@@ -30,3 +30,19 @@ def query_result(query):
             conn.close()
 
     return cursor.description, rows
+
+
+def table_data(descriptions, rows):
+    column_names = [description[0] for description in descriptions]
+    table = [str(row).strip("()").replace("'", "").split(", ") for row in rows]
+
+    return column_names, table
+
+
+def query_mentors():
+    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name, schools.country
+               FROM mentors
+               INNER JOIN schools ON mentors.city = schools.city
+               ;"""
+    descriptions, rows = query_result(query)
+    return table_data(descriptions, rows)
