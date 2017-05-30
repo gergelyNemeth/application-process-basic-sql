@@ -1,16 +1,16 @@
-import ui
+from flask import Flask, render_template
+import data_manager
+
+app = Flask('application_process')
+
+
+@app.route('/')
+def root():
+    return render_template('main.html')
 
 
 def main():
-    end = False
-
-    while not end:
-        ui.print_menu()
-        query = ui.choose_menu()
-        if query:
-            ui.print_query_result(query)
-        else:
-            end = True
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
