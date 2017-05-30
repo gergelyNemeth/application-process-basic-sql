@@ -40,7 +40,7 @@ def table_data(descriptions, rows):
 
 
 def query_mentors():
-    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name, schools.country
+    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name AS school, schools.country
                FROM mentors
                INNER JOIN schools ON mentors.city = schools.city
                ;"""

@@ -11,8 +11,8 @@ def root():
 
 @app.route('/mentors')
 def mentors():
-    coloumn_name, table_data = data_manager.query_mentors()
-    return render_template('query_result.html')
+    column_names, table = data_manager.query_mentors()
+    return render_template('query_result.html', title='Mentors', column_names=column_names, table=table)
 
 
 def main():
