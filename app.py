@@ -9,6 +9,12 @@ def root():
     return render_template('main.html')
 
 
+@app.route('/mentors')
+def mentors():
+    coloumn_name, table_data = data_manager.query_mentors()
+    return render_template('query_result.html')
+
+
 def main():
     app.run(debug=True)
 
