@@ -15,6 +15,12 @@ def mentors():
     return render_template('query_result.html', title='Mentors', columns=columns, table=table)
 
 
+@app.route('/all-school')
+def all_school():
+    columns, table = data_manager.query_all_school()
+    return render_template('query_result.html', title='All School', columns=columns, table=table)
+
+
 def main():
     app.run(debug=True)
 

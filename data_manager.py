@@ -48,3 +48,14 @@ def query_mentors():
     descriptions, rows = query_result(query)
 
     return table_data(descriptions, rows)
+
+
+def query_all_school():
+    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentors_name, schools.name AS school, schools.country
+               FROM mentors
+               RIGHT JOIN schools ON mentors.city = schools.city
+               ORDER BY mentors.id
+               ;"""
+    descriptions, rows = query_result(query)
+
+    return table_data(descriptions, rows)
