@@ -79,3 +79,14 @@ def query_contacts():
     columns, rows = query_result(query)
 
     return columns, rows
+
+
+def query_applicants():
+    query = """SELECT first_name, application_code, creation_date
+                FROM applicants
+                INNER JOIN applicants_mentors ON id = applicant_id
+                ORDER BY creation_date DESC
+                ;"""
+    columns, rows = query_result(query)
+
+    return columns, rows

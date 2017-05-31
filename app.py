@@ -33,6 +33,12 @@ def contacts():
     return render_template('query_result.html', title='Contacts', columns=columns, table=table)
 
 
+@app.route('/applicants')
+def applicants():
+    columns, table = data_manager.query_applicants()
+    return render_template('query_result.html', title='Applicants', columns=columns, table=table)
+
+
 def main():
     app.run(debug=True)
 
