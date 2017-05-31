@@ -33,73 +33,43 @@ def query_result(query):
     return columns, rows
 
 
-def query_mentors():
-    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
+def query():
+    query_dict = {
+        'mentors':
+        """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
                FROM mentors
                INNER JOIN schools ON mentors.city = schools.city
-               ORDER BY mentors.id
-               ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
-
-
-def query_all_school():
-    query = """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
+               ORDER BY mentors.id;""",
+        'all_school':
+        """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
                FROM mentors
                RIGHT JOIN schools ON mentors.city = schools.city
-               ORDER BY mentors.id
-               ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
-
-
-def query_mentors_by_country():
-    query = """SELECT schools.country, COUNT(mentors.id)
-               FROM mentors
-               RIGHT JOIN schools ON mentors.city = schools.city
-               GROUP BY schools.country
-               ORDER BY schools.country
-               ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
-
-
-def query_contacts():
-    query = """SELECT schools.name AS school,
-                      CONCAT(mentors.first_name, ' ', mentors.last_name) AS contact_name,
-                      mentors.email
-               FROM mentors
-               INNER JOIN schools ON mentors.city = schools.city
-               WHERE mentors.id = schools.contact_person
-               ORDER BY schools.name
-               ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
-
-
-def query_applicants():
-    query = """SELECT first_name, application_code, creation_date
+               ORDER BY mentors.id;""",
+        'mentors_by_country':
+        """SELECT schools.country, COUNT(mentors.id)
+           FROM mentors
+           RIGHT JOIN schools ON mentors.city = schools.city
+           GROUP BY schools.country
+           ORDER BY schools.country;""",
+        'contacts':
+        """SELECT schools.name AS school,
+                  CONCAT(mentors.first_name, ' ', mentors.last_name) AS contact_name,
+                  mentors.email
+           FROM mentors
+           INNER JOIN schools ON mentors.city = schools.city
+           WHERE mentors.id = schools.contact_person
+           ORDER BY schools.name;""",
+        'applicants':
+        """SELECT first_name, application_code, creation_date
                 FROM applicants
                 INNER JOIN applicants_mentors ON id = applicant_id
-                ORDER BY creation_date DESC
-                ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
-
-
-def query_applicants_and_mentors():
-    query = """SELECT applicants.first_name, applicants.application_code,
+                ORDER BY creation_date DESC;""",
+        'applicants_and_mentors':
+        """SELECT applicants.first_name, applicants.application_code,
                       CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentor_name
                 FROM applicants
                 LEFT JOIN applicants_mentors ON applicants.id = applicants_mentors.applicant_id
                 LEFT JOIN mentors ON mentors.id = applicants_mentors.mentor_id
-                ORDER BY applicants.id
-                ;"""
-    columns, rows = query_result(query)
-
-    return columns, rows
+                ORDER BY applicants.id;"""
+    }
+    return query_dict
