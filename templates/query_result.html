@@ -23,6 +23,9 @@
         {% for row in table %}
             <tr>
             {% for cell in row %}
+                {% if cell == ' ' %}
+                    {% set cell = '- None -' %}
+                {% endif %}
                 <td>{{ cell }}</td>
             {% endfor %}
             </tr>
