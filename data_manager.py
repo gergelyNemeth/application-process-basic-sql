@@ -63,6 +63,7 @@ def query():
         """SELECT first_name, application_code, creation_date
                 FROM applicants
                 INNER JOIN applicants_mentors ON id = applicant_id
+                WHERE creation_date > '2016-01-01'
                 ORDER BY creation_date DESC;""",
         'applicants_and_mentors':
         """SELECT applicants.first_name, applicants.application_code,
