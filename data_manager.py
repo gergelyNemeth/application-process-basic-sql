@@ -23,20 +23,14 @@ def query_result(query):
         cursor, conn = connect_database()
         cursor.execute(query)
         rows = cursor.fetchall()
+        columns = [description[0] for description in cursor.description]
     except Exception as e:
         print(e)
     finally:
         if conn:
             conn.close()
 
-    return cursor.description, rows
-
-
-def table_data(descriptions, rows):
-    columns = [description[0] for description in descriptions]
-    table = [str(row).strip("()").replace("'", "").split(", ") for row in rows]
-
-    return columns, table
+    return columns, rows
 
 
 def query_mentors():
@@ -45,9 +39,9 @@ def query_mentors():
                INNER JOIN schools ON mentors.city = schools.city
                ORDER BY mentors.id
                ;"""
-    descriptions, rows = query_result(query)
+    columns, rows = query_result(query)
 
-    return table_data(descriptions, rows)
+    return columns, rows
 
 
 def query_all_school():
@@ -56,9 +50,9 @@ def query_all_school():
                RIGHT JOIN schools ON mentors.city = schools.city
                ORDER BY mentors.id
                ;"""
-    descriptions, rows = query_result(query)
+    columns, rows = query_result(query)
 
-    return table_data(descriptions, rows)
+    return columns, rows
 
 
 def query_mentors_by_country():
@@ -68,9 +62,9 @@ def query_mentors_by_country():
                GROUP BY schools.country
                ORDER BY schools.country
                ;"""
-    descriptions, rows = query_result(query)
+    columns, rows = query_result(query)
 
-    return table_data(descriptions, rows)
+    return columns, rows
 
 
 def query_contacts():
@@ -82,6 +76,6 @@ def query_contacts():
                WHERE mentors.id = schools.contact_person
                ORDER BY schools.name
                ;"""
-    descriptions, rows = query_result(query)
+    columns, rows = query_result(query)
 
-    return table_data(descriptions, rows)
+    return columns, rows
