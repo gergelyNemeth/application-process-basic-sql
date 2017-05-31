@@ -90,3 +90,16 @@ def query_applicants():
     columns, rows = query_result(query)
 
     return columns, rows
+
+
+def query_applicants_and_mentors():
+    query = """SELECT applicants.first_name, applicants.application_code,
+                      CONCAT(mentors.first_name, ' ', mentors.last_name) AS mentor_name
+                FROM applicants
+                LEFT JOIN applicants_mentors ON applicants.id = applicants_mentors.applicant_id
+                LEFT JOIN mentors ON mentors.id = applicants_mentors.mentor_id
+                ORDER BY applicants.id
+                ;"""
+    columns, rows = query_result(query)
+
+    return columns, rows
