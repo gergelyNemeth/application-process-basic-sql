@@ -17,16 +17,24 @@ body {
 
 header {
     margin: 0;
-    padding: 0 1em;
+    padding: 0;
     background-color: #fff;
     border-bottom: 6px solid red;
 }
 
-h1 {
+h1, h2 {
     font-family: 'Raleway', sans-serif;
+    font-weight: normal;
+}
+
+h1 {
     margin: 0;
     padding: 0.5em 10%;
     font-size: 3.2em;
+}
+
+h2 {
+    fon-size: 2.5em;
 }
 
 nav {
@@ -51,11 +59,55 @@ a {
     text-decoration: none;
 }
 
+nav ul li:hover {
+     background-color: #eee;
+}
+
 a:hover {
     color: red;
 }
 
-nav ul li:hover {
-     background-color: #eee;
-     box-sizing: content-box;
+
+.table-content {
+    margin: 0 10% 3%;
+    line-height: 1.2;
+}
+
+
+table {
+    background-color: #aaa;
+    margin: 1em 0 2em;
+    width: 100%;
+}
+
+thead {
+    background-color: #d3d3d3;
+}
+
+th {
+    color: #333;
+    font-weight: normal;
+}
+
+td, 
+th {
+    padding: 0.5em;
+    text-align: center;
+}
+
+td {
+    background-color: #fff;
+}
+tbody tr:hover td {
+    background-color: #eee;
+}
+
+.back-btn {
+    margin: 1em 0 1em;
+    padding: 0.5em;
+    background-color: #eee;
+}
+
+.back-btn:hover {
+    background-color: #fff;
 }
