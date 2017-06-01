@@ -33,7 +33,7 @@ def query_result(query):
     return columns, rows
 
 
-def query():
+def query(key):
     query_dict = {
         'mentors':
         """SELECT CONCAT(mentors.first_name, ' ', mentors.last_name) AS name, schools.name AS school, schools.country
@@ -73,4 +73,4 @@ def query():
                 LEFT JOIN mentors ON mentors.id = applicants_mentors.mentor_id
                 ORDER BY applicants.id;"""
     }
-    return query_dict
+    return query_dict[key]
