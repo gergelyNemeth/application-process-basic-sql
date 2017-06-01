@@ -1,0 +1,61 @@
+@import url('https://necolas.github.io/normalize.css/7.0.0/normalize.css');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Titillium+Web');
+
+*, 
+*:before, 
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #d3d3d3;
+    color: #333;
+    font: 16px/1.5 'Open Sans', sans-serif;
+}
+
+header {
+    margin: 0;
+    padding: 0 1em;
+    background-color: #fff;
+    border-bottom: 6px solid red;
+}
+
+h1 {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding: 0.5em 10%;
+    font-size: 3.2em;
+}
+
+nav {
+    text-align: center;
+    margin: 3.75em 10%;
+}
+
+nav ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+nav ul li {
+    font-size: 1.5em;
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 0.5em 0;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: red;
+}
+
+nav ul li:hover {
+     background-color: #eee;
+     box-sizing: content-box;
+}
