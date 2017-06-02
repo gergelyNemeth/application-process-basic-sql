@@ -56,7 +56,7 @@ def query(key):
                   CONCAT(mentors.first_name, ' ', mentors.last_name) AS contact_name,
                   mentors.email
            FROM mentors
-           INNER JOIN schools ON mentors.city = schools.city
+           INNER JOIN schools ON mentors.id = schools.contact_person
            WHERE mentors.id = schools.contact_person
            ORDER BY schools.name;""",
         'applicants':
