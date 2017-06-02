@@ -11,7 +11,7 @@ body {
     padding: 0;
     margin: 0;
     background-color: #d3d3d3;
-    color: #333;
+    color: #153550;
     font: 16px/1.5 'Open Sans', sans-serif;
 }
 
@@ -19,7 +19,7 @@ header {
     margin: 0;
     padding: 0;
     background-color: #fff;
-    border-bottom: 5px solid red;
+    border-bottom: 5px solid #e65a4f;
 }
 
 h1, h2, .page-title {
@@ -64,13 +64,13 @@ li a {
 }
 
 a {
-    color: #333;
+    color: #153550;
     text-decoration: none;
 }
 
 a:hover {
     background-color: #eee;
-    color: red;
+    color: #e65a4f;
 }
 
 /* Subpages
