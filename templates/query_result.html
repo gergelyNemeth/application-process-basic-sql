@@ -23,8 +23,8 @@
                     {% endfor %}
                     </tr>
                 </thead>
-            {% for row in table %}
                 <tbody>
+                {% for row in table %}
                     <tr>
                     {% for cell in row %}
                         {% if cell == ' ' %}
@@ -33,8 +33,8 @@
                         <td>{{ cell }}</td>
                     {% endfor %}
                     </tr>
+                {% endfor %}
                 </tbody>
-            {% endfor %}
             </table>
 
             <p><a href="/" class="back-btn">Back to the main page</a></p>

@@ -84,28 +84,43 @@ a:hover {
 
 table {
     background-color: #aaa;
-    margin: 1em 0 2em;
+    margin: 1em 0 3em;
     width: 100%;
+    border-collapse: collapse;
 }
 
 thead {
-    background-color: #d3d3d3;
+    background-color: #aaa;
 }
 
 th {
-    color: #333;
+    color: #fff;
     font-weight: normal;
 }
 
 td, 
 th {
+    border: 2px solid #d3d3d3;
+    border-top: none;
     padding: 0.5em;
     text-align: center;
+    
+}
+
+th:first-child, 
+td:first-child{
+    border-left: none;
+}
+
+th:last-child, 
+td:last-child {
+    border-right: none;
 }
 
 td {
     background-color: #fff;
 }
+
 tbody tr:hover td {
     background-color: #eee;
 }
